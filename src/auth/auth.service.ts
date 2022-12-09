@@ -3,7 +3,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { LoginResponseDto } from './dto/login-response.dto';
 import { LoginDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
-import * as bcrypt from 'bcrypt';
+import { compare } from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -21,7 +21,7 @@ export class AuthService {
       throw new UnauthorizedException('Usuário ou senha inválidos');
     }
 
-    const isHashValid = await bcrypt.compare(password, user.password);
+    const isHashValid = await compare(password, user.password);
 
     if (!isHashValid) {
       throw new UnauthorizedException('Usuário ou senha inválidos');
